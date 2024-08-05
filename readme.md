@@ -14,20 +14,12 @@ Backend project using Go.
 - [ ] Deploy
 
 
-cmd/web: main package, which contains the main entry file, routes, and middleware.
-
-driver: connects to MongoDB Atlas.
-
-handlers: processes user requests.
-
-modules: additional packages for specific functionality.
-
-auth: generates and parses jwt(Json Web Token) tokens.
-
-config: reusable struct fields.
-
-database: interacts with collections and injects results to handlers.
-
-encrypt: handles hashing and verification of user passwords.
-
-model: holds user details and is crucial for the application.
+├── controllers         # contains api functions and main business logic
+├── docs                # swagger files 
+├── logs
+├── middlewares         # request/response middlewares
+│   └── validators      # data/request validators
+├── models              
+│   └── db              # collection models
+├── routes              # router initialization
+└── services            # general service & database actions

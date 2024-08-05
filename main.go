@@ -1,22 +1,18 @@
 package main
 
 import (
-	"fmt"
+	"context"
 	"log"
 	"net/url"
 
+	"github.com/LocTr/reverse_uber_be/driver"
 	"github.com/LocTr/reverse_uber_be/modules/config"
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	// Create a new Gin router
-	router := gin.Default()
+var app config.AppTools
 
-	// Define a route for the root URL
-	router.GET("/", func(c *gin.Context) {
-		c.String(200, "Hello, World hehe")
-	})
+func main() {
 
 	// Load environment configuration
 	env, err := config.NewEnvConfig()
@@ -26,8 +22,26 @@ func main() {
 	// Construct the MongoDB connection URI
 	uri := "mongodb+srv://" + url.QueryEscape(env.User) + ":" + url.QueryEscape(env.Password) +
 		"@" + env.Cluster + "/?appName=" + env.AppName
+	// Connect to the MongoDB deployment
+	client := driver.Connect(uri)
 
-	fmt.Println("Pinged your deployment. You successfully connected to MongoDB!")
+	defer func() {
+		if err = client.Disconnect(context.TODO()); err != nil {
+			app.ErrorLogger.Fatal(err)
+			return
+		}
+	}()
 
-	router.Run(":8080")
+	// Create a new Gin router
+	router := gin.New()
+
+	// Define a route for the root URL
+	router.GET("/", func(c *gin.Context) {
+		c.String(200, "Hello hehe")
+	})
+
+	err = router.Run(":8080")
+	if err != nil {
+		app.ErrorLogger.Fatal(err)
+	}
 }
