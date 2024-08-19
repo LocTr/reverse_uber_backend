@@ -36,3 +36,17 @@ func GetRedisCache() *cache.Cache {
 	})
 	return redisCache
 }
+
+// func CheckRedistConnection() {
+// 	redisClient := GetRedisDefaultClient()
+// 	err := redisClient.Ping(context.Background()).Err()
+// 	if err != nil {
+// 		panic(err)
+// 	}
+
+// 	log.Println("Connected to Redist")
+// }
+
+// func getMenuCacheKey(itemId primitive.ObjectID, menu *models.MenuItem) {
+// 	return "req:cache:menu:" + itemId.Hex()
+// }

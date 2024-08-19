@@ -7,12 +7,15 @@ import (
 
 	"github.com/LocTr/reverse_uber_be/driver"
 	"github.com/LocTr/reverse_uber_be/modules/config"
+	"github.com/LocTr/reverse_uber_be/services"
 	"github.com/gin-gonic/gin"
 )
 
 var app config.AppTools
 
 func main() {
+
+	services.LoadConfig()
 
 	// Load environment configuration
 	env, err := config.NewEnvConfig()
